@@ -34,20 +34,29 @@ public class Philosopher implements Runnable {
                 PhilosophersDesk.setReport(name);
                 // Philosopher is hungry
                 state = "hungry";
-                // taking right
-                right.get();
-                right.setId(id);
-                // turn left (critical moment)
-                sleep(100);
-                // taking left
-                left.get();
-                left.setId(id);
-                setLeftF(true);
                 while(!hasLeftFork() && !hasRightFork()) {
+                    // taking right
+                    if(!right.isTaken()) {
+                        right.get();
+                        right.setId(id);
+                        setRightF(true);
+                    }
+                    // turn left (critical moment)
+                    sleep(100);
+                    // taking left
+                    if(!left.isTaken()) {
+                        left.get();
+                        left.setId(id);
+                        setLeftF(true);
+                    } else {
+                        if(right.getId()==id) {
+                            right.put();
+                        }
+                    }
                     sleep(100);
                 }
                 state = "eating";
-                MyLogger.printOut(name + " hat zwei Gabel. Er kann essen.");
+                MyLogger.printOut(name + " hat zwei Gabeln. Er kann essen.");
                 // holding two forks -> can eat now
                 sleep(eatingTime);
             } catch (InterruptedException e) {
