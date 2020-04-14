@@ -2,18 +2,13 @@ package de.netempire;
 
 import de.netempire.classes.Fork;
 import de.netempire.classes.Philosopher;
-import de.netempire.logger.MyLogger;
 import de.netempire.logger.ResultLogger;
 
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-
-import static java.lang.Thread.sleep;
 
 public class PhilosophersDesk {
 
@@ -33,8 +28,9 @@ public class PhilosophersDesk {
     static Thread schlegelThread = new Thread(schlegel);
     static Thread fichteThread = new Thread(fichte);
     static Thread herderThread = new Thread(herder);
-    static Thread controllerThread = new Thread();
-
+    static ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
+    static Runnable controller;
+    static Date start = Calendar.getInstance().getTime();
 
     public static void main(String[] args) {
         PhilosophersDesk.startProcess();
@@ -46,19 +42,13 @@ public class PhilosophersDesk {
     }
 
     public static void initialize(){
-        Date start = Calendar.getInstance().getTime();
-
         platon.setEatingTime(750);
         aristoteles.setEatingTime(1000);
         herder.setEatingTime(300);
         fichte.setEatingTime(1500);
         schlegel.setEatingTime(500);
 
-        Philosopher[] philosophers = new Philosopher[]{platon, aristoteles, herder, fichte, schlegel};
-
-
-        ScheduledExecutorService executor = Executors.newSingleThreadScheduledExecutor();
-        Runnable controller = () -> {
+        controller = () -> {
             if(!platonThread.isAlive() && !herderThread.isAlive() && !aristotelesThread.isAlive() && !fichteThread.isAlive() && !schlegelThread.isAlive()){
                 platon.stop();
                 herder.stop();
@@ -70,8 +60,6 @@ public class PhilosophersDesk {
                 ResultLogger.log("Die Philosophen haben " + computeDuration(start, Calendar.getInstance().getTime()) + " Sekunden zusammen am Tisch gesessen.");
             }
         };
-        executor.scheduleAtFixedRate(controller, 0, 4, TimeUnit.SECONDS);
-        controllerThread = new Thread(controller);
     }
 
     public static void start(){
@@ -80,22 +68,12 @@ public class PhilosophersDesk {
         schlegelThread.start();
         fichteThread.start();
         herderThread.start();
-        controllerThread.start();
-    }
-
-
-    public static int calcDate(Date to, Date from) {
-        long difference = from.getTime() - to.getTime();
-        return (int) (difference/1000);
+        executor.scheduleAtFixedRate(controller, 0, 4, TimeUnit.SECONDS);
     }
 
     public static int computeDuration(Date to, Date from) {
         long difference = from.getTime() - to.getTime();
         return (int) (difference/1000);
-    }
-
-    public static String getReport() {
-        return report;
     }
 
     public static void setReport(String report) {
