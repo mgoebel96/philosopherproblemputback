@@ -8,10 +8,9 @@ public class Fork {
     public synchronized void put() {
         // Fork is placed back on the table. -> status: not taken
         taken = false;
-        notify();
     }
 
-    public synchronized void get() throws InterruptedException {
+    public synchronized void get() {
         // Fork is taken from the table. -> status: taken
         taken = true;
     }

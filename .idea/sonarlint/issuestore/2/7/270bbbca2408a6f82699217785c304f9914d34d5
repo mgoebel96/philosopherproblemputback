@@ -1,5 +1,5 @@
 
-T
-java:S1135k"2Complete the task associated to this TODO comment.(±›ÿÔÿÿÿÿÿ8³¤’Ä—.
-o
-java:S3776"RRefactor this method to reduce its Cognitive Complexity from 31 to the 15 allowed.(æÑüÛ8àµ×“.
+L
+java:S1068"*Remove this unused "report" private field.(ï©®Ôùÿÿÿÿ8æ¦ƒÊ—.
+w
+java:S1450"URemove the "report" field and declare it as a local variable in the relevant methods.(ï©®Ôùÿÿÿÿ8æ¦ƒÊ—.

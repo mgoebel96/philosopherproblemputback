@@ -79,4 +79,5 @@ public class PhilosophersDesk {
     public static void setReport(String report) {
         PhilosophersDesk.report = report;
     }
+
 }

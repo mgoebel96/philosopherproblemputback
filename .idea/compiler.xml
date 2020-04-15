@@ -7,8 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="philosopherproblemonlyone" />
-        <module name="philosopherproblemputting" />
+        <module name="ppputting" />
         <module name="philosopherproblem" />
+        <module name="philosopherproblemputting" />
         <module name="philosopherproblemwithoutsemaphore" />
       </profile>
     </annotationProcessing>
